@@ -5,13 +5,15 @@ import './App.css';
 
 class App extends React.Component
 {
-	state={advice:''};
+	state={
+		advice:'',
+		};
 	
 	componentDidMount()
 	{
 		//for checking purpose
 		console.log('Component Did Mount');
-		axios.get();
+		this.fetchAdvice();
 	}
 	
 	fetchAdvice=() => 
@@ -19,11 +21,13 @@ class App extends React.Component
 		axios.get('https://api.adviceslip.com/advice')
 			.then((response) => 
 			{
-				const {advice}
+		const { advice } = response.data.slip;
+
+        this.setState({ advice });
 			})
 			.catch((error)=>
 			{
-				
+				console.log(error);
 			}
 			);
 			
@@ -32,12 +36,15 @@ class App extends React.Component
 	render()
 	{
 		
-		const {advice} = this.state;
+		
 		return (
 			
 			<div className="app">
 				<div className="card">
-					<h1 className="heading">{advice}
+					<h1 className="heading">{this.state.advice}</h1>
+					<button className="button" onClick={this.fetchAdvice}><span>GIVE ME AN ADVICE NOW!!</span></button>
+					</div>
+					</div>
 			
 		);
 	}
